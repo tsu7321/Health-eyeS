@@ -6,6 +6,7 @@ import time_count_value as gtime_cnt
 import time_count_flg as gtime_flg
 import sys
 
+
 gend.flg = 0
 
 #×で閉じられないようにする関数
@@ -17,12 +18,14 @@ def clock(time_limit, time_limit_count, time_label):
 
     if gtime_flg.flg == 0:
         time_limit_count += 1
+        gtime_cnt.val = time_limit_count
+        print(time_limit_count)
+        # カウントラベルを更新
+        time_label.config(text=time_limit_count)
     else:
         time_limit_count = 0
-    gtime_cnt.val = time_limit_count
-    print(time_limit_count)
-    # カウントラベルを更新
-    time_label.config(text=time_limit_count)
+        time_label.config(text="時間です")
+
     if time_limit_count > 0:
         # lambdaを使って引数を渡す
         time_limit.after(1000, lambda: clock(time_limit, time_limit_count, time_label))
@@ -33,10 +36,12 @@ def clock(time_limit, time_limit_count, time_label):
 
 def apli_end_click(time_limit):
     gend.flg = 1
-    print("endflg:%d" % gend.flg)
-def time_limit_end():
-    time_limit.destroy()
+    # print("endflg:%d" % gend.flg)
     
+#time_,limitを終了する関数
+def time_limit_end():
+    print("ウインドウを閉じました")
+    time_limit.quit()
 
 def time_lim():
     global time_limit
@@ -55,7 +60,7 @@ def time_lim():
     time_label.pack()
     # clock関数を呼び出す
     clock(time_limit, time_limit_count, time_label)
-    if gend.flg == 0:
-      time_limit.mainloop()
+    
+    time_limit.mainloop()
 if __name__ == '__main__':
     time_lim()

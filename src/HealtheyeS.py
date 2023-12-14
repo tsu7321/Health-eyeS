@@ -189,12 +189,13 @@ if cap.isOpened() is False:
 
 
 # -----------------------------------------------------------
+#time_limitの変更箇所-----------------------------------------
 gtime_flg.flg = 0
 gend.flg = 0
 if gtime_flg.flg == 0:
     thread1 = threading.Thread(target=time_limit.time_lim)
     thread1.start()
-
+#-------------------------------------------------------------
 
 # 無限ループで読み取った映像に変化を加える（1フレームごとに区切って変化）
 count = 0
@@ -340,19 +341,28 @@ while True:
             textChange = 1
         else:                  # 現在cmのテキストを画面上部に固定化している場合、頭上に表示する
             textChange = 0
-    #制限時間を超えたら終了
+#time_limitの変更箇所-----------------------------------------
+    #制限時間を超えたらパスワード入力画面を表示
     if glimit.val <= gtime_cnt.val:
         if gtime_flg.flg == 0:
             gtime_flg.flg = 1
-            print("timeflg:%d" % gtime_flg.flg)
+            #print("timeflg:%d" % gtime_flg.flg)
             password_input.passbox()
         
     #終了フラグが立ったら終了
     if gend.flg == 1:
+        print("終了します")
+        
         break
-
+# -----------------------------------------------------------
 # 終了処理
+print("終了処理")
 # カメラのリソースを開放する
 cap.release()
 # OpenCVのウィンドウをすべて閉じる
 cv2.destroyAllWindows()
+print("カメラが終了しました")
+time_limit.time_limit_end()
+print("正常に終了しました")
+
+
